@@ -74,7 +74,7 @@ class APIService {
     }
     debugPrint("API URL from Config: ${Config.apiUrl}");
     debugPrint("Category API Path: ${Config.categoryAPI}");
-    var url = Uri.http(Config.apiUrl, Config.categoryAPI, queryString);
+    var url = Uri.http(Config.apiUrl, Config.productAPI, queryString);
 
     debugPrint("Final API URL: $url");
     var response = await client.get(url, headers: requestHeaders);

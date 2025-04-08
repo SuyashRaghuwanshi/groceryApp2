@@ -6,9 +6,7 @@ part 'product.freezed.dart';
 part 'product.g.dart';
 
 List<Product> productsFromJson(dynamic str) {
-  return List<Product>.from(
-    (str).map((e) => Product.fromJson(e as Map<String, dynamic>)),
-  );
+  return List<Product>.from((str).map((e) => Product.fromJson(e)));
 }
 
 @freezed
