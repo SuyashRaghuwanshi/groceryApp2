@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/models/category.dart';
 import 'package:frontend/models/pagination.dart';
+import 'package:frontend/models/product_filter.dart';
 import 'package:frontend/providers.dart';
 
 class HomeCategoriesWidget extends ConsumerWidget {
@@ -43,7 +44,7 @@ class HomeCategoriesWidget extends ConsumerWidget {
             child: Text("No categories found"),
           ); // Handle empty state
         }
-        return _buildCategoryList(categories);
+        return _buildCategoryList(categories, ref);
       },
 
       error: (err, stack) {
@@ -57,7 +58,7 @@ class HomeCategoriesWidget extends ConsumerWidget {
     );
   }
 
-  Widget _buildCategoryList(List<Category> categories) {
+  Widget _buildCategoryList(List<Category> categories, WidgetRef ref) {
     return Container(
       height: 150,
       alignment: Alignment.centerLeft,
@@ -71,7 +72,23 @@ class HomeCategoriesWidget extends ConsumerWidget {
           debugPrint("${data.categoryName}");
           debugPrint("${data.fullImagePath}");
           return GestureDetector(
-            onTap: () {},
+            onTap: () {
+              ProductFilterModel filterModel = ProductFilterModel(
+                paginationModel: PaginationModel(page: 1, pageSize: 10),
+                categoryId: data.categoryId,
+              );
+              ref
+                  .read(productsFilterProvider.notifier)
+                  .setProductFilter(filterModel);
+              ref.read(productsNotifierProvider.notifier).getProducts();
+              Navigator.of(context).pushNamed(
+                '/products',
+                arguments: {
+                  "categoryId": data.categoryId,
+                  "categoryName": data.categoryName,
+                },
+              );
+            },
             child: Padding(
               padding: EdgeInsets.all(8),
               child: Column(

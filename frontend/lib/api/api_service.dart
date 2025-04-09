@@ -72,34 +72,18 @@ class APIService {
     if (productFilterModel.categoryId != null) {
       queryString['categoryId'] = productFilterModel.categoryId!;
     }
-    debugPrint("API URL from Config: ${Config.apiUrl}");
-    debugPrint("Category API Path: ${Config.categoryAPI}");
+    if (productFilterModel.sortBy != null) {
+      queryString['sort'] = productFilterModel.sortBy!;
+    }
     var url = Uri.http(Config.apiUrl, Config.productAPI, queryString);
 
     debugPrint("Final API URL: $url");
     var response = await client.get(url, headers: requestHeaders);
-    debugPrint("Status Code: ${response.statusCode}");
-    debugPrint("Response Body: ${response.body}");
     if (response.statusCode == 200) {
       try {
         var data = jsonDecode(response.body);
         debugPrint("Decoded JSON: $data");
         return productsFromJson(data["data"]);
-
-        // List<dynamic> productList = (data["data"] as List<dynamic>?) ?? [];
-        // debugPrint("Categories found: ${productList.length}");
-
-        // List<Product> products = [];
-        // for (var item in productList) {
-        //   try {
-        //     var product = Product.fromJson(item);
-        //     products.add(product);
-        //     debugPrint("Parsed category: ${product.productName}");
-        //   } catch (e) {
-        //     debugPrint("Error parsing category: $e, Data: $item");
-        //   }
-        // }
-        // return products;
       } catch (e) {
         debugPrint("Error decoding JSON: $e");
         return null;

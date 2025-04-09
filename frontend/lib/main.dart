@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/pages/home_page.dart';
+import 'package:frontend/pages/products_page.dart';
 
 void main() {
   runApp(ProviderScope(child: const MyApp()));
@@ -17,6 +18,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: HomePage(),
+      routes: <String, WidgetBuilder>{
+        '/products': (BuildContext context) => ProductsPage(),
+      },
     );
   }
 }

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ProductFilterModel {
 
- PaginationModel get paginationModel; String? get categoryId;
+ PaginationModel get paginationModel; String? get categoryId; String? get sortBy;
 /// Create a copy of ProductFilterModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $ProductFilterModelCopyWith<ProductFilterModel> get copyWith => _$ProductFilterM
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductFilterModel&&(identical(other.paginationModel, paginationModel) || other.paginationModel == paginationModel)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProductFilterModel&&(identical(other.paginationModel, paginationModel) || other.paginationModel == paginationModel)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.sortBy, sortBy) || other.sortBy == sortBy));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,paginationModel,categoryId);
+int get hashCode => Object.hash(runtimeType,paginationModel,categoryId,sortBy);
 
 @override
 String toString() {
-  return 'ProductFilterModel(paginationModel: $paginationModel, categoryId: $categoryId)';
+  return 'ProductFilterModel(paginationModel: $paginationModel, categoryId: $categoryId, sortBy: $sortBy)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $ProductFilterModelCopyWith<$Res>  {
   factory $ProductFilterModelCopyWith(ProductFilterModel value, $Res Function(ProductFilterModel) _then) = _$ProductFilterModelCopyWithImpl;
 @useResult
 $Res call({
- PaginationModel paginationModel, String? categoryId
+ PaginationModel paginationModel, String? categoryId, String? sortBy
 });
 
 
@@ -63,10 +63,11 @@ class _$ProductFilterModelCopyWithImpl<$Res>
 
 /// Create a copy of ProductFilterModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? paginationModel = null,Object? categoryId = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? paginationModel = null,Object? categoryId = freezed,Object? sortBy = freezed,}) {
   return _then(_self.copyWith(
 paginationModel: null == paginationModel ? _self.paginationModel : paginationModel // ignore: cast_nullable_to_non_nullable
 as PaginationModel,categoryId: freezed == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
+as String?,sortBy: freezed == sortBy ? _self.sortBy : sortBy // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -87,11 +88,12 @@ $PaginationModelCopyWith<$Res> get paginationModel {
 
 
 class _ProductFilterModel implements ProductFilterModel {
-   _ProductFilterModel({required this.paginationModel, this.categoryId});
+   _ProductFilterModel({required this.paginationModel, this.categoryId, this.sortBy});
   
 
 @override final  PaginationModel paginationModel;
 @override final  String? categoryId;
+@override final  String? sortBy;
 
 /// Create a copy of ProductFilterModel
 /// with the given fields replaced by the non-null parameter values.
@@ -103,16 +105,16 @@ _$ProductFilterModelCopyWith<_ProductFilterModel> get copyWith => __$ProductFilt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProductFilterModel&&(identical(other.paginationModel, paginationModel) || other.paginationModel == paginationModel)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProductFilterModel&&(identical(other.paginationModel, paginationModel) || other.paginationModel == paginationModel)&&(identical(other.categoryId, categoryId) || other.categoryId == categoryId)&&(identical(other.sortBy, sortBy) || other.sortBy == sortBy));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,paginationModel,categoryId);
+int get hashCode => Object.hash(runtimeType,paginationModel,categoryId,sortBy);
 
 @override
 String toString() {
-  return 'ProductFilterModel(paginationModel: $paginationModel, categoryId: $categoryId)';
+  return 'ProductFilterModel(paginationModel: $paginationModel, categoryId: $categoryId, sortBy: $sortBy)';
 }
 
 
@@ -123,7 +125,7 @@ abstract mixin class _$ProductFilterModelCopyWith<$Res> implements $ProductFilte
   factory _$ProductFilterModelCopyWith(_ProductFilterModel value, $Res Function(_ProductFilterModel) _then) = __$ProductFilterModelCopyWithImpl;
 @override @useResult
 $Res call({
- PaginationModel paginationModel, String? categoryId
+ PaginationModel paginationModel, String? categoryId, String? sortBy
 });
 
 
@@ -140,10 +142,11 @@ class __$ProductFilterModelCopyWithImpl<$Res>
 
 /// Create a copy of ProductFilterModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? paginationModel = null,Object? categoryId = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? paginationModel = null,Object? categoryId = freezed,Object? sortBy = freezed,}) {
   return _then(_ProductFilterModel(
 paginationModel: null == paginationModel ? _self.paginationModel : paginationModel // ignore: cast_nullable_to_non_nullable
 as PaginationModel,categoryId: freezed == categoryId ? _self.categoryId : categoryId // ignore: cast_nullable_to_non_nullable
+as String?,sortBy: freezed == sortBy ? _self.sortBy : sortBy // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

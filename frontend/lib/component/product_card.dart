@@ -36,9 +36,9 @@ class ProductCard extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                child: Image.network(model!.fullImagePath, fit: BoxFit.cover),
                 height: 100,
                 width: MediaQuery.of(context).size.width,
+                child: Image.network(model!.fullImagePath, fit: BoxFit.cover),
                 // width: double.infinity, // or a fixed width like 100–140
               ),
               Padding(

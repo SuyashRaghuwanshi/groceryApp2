@@ -35,6 +35,7 @@
               "in": "body",
               "description": "User Registration",
               "required": true,
+              "type": "object",
               "schema": {
                 "$ref": "#/definitions/RegisterModel"
               }
@@ -60,6 +61,7 @@
               "in": "body",
               "description": "User Login API",
               "required": true,
+              "type": "object",
               "schema": {
                 "$ref": "#/definitions/LoginModel"
               }
