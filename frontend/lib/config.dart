@@ -5,6 +5,7 @@ class Config {
   static const imageURL = "http://192.168.38.4:3000";
   static const String categoryAPI = "api/category";
   static const String productAPI = "api/product";
+  static const String registerAPI = "api/register";
   static const int pageSize = 10;
   static const String currency = "";
 }

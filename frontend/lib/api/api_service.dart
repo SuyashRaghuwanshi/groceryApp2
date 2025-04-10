@@ -93,4 +93,38 @@ class APIService {
       return null;
     }
   }
+
+  static Future<bool> registerUser(
+    String fullName,
+    String email,
+    String password,
+  ) async {
+    Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
+
+    var url = Uri.http(Config.apiUrl, Config.registerAPI);
+    debugPrint("Final API URL: $url");
+    try {
+      var response = await client.post(
+        url,
+        headers: requestHeaders,
+        body: jsonEncode({
+          "fullName": fullName,
+          "email": email,
+          "password": password,
+        }),
+      );
+
+      debugPrint("📥 Response Code: ${response.statusCode}");
+      debugPrint("📥 Response Body: ${response.body}");
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      debugPrint("❌ Register Error: $e");
+      return false;
+    }
+  }
 }
