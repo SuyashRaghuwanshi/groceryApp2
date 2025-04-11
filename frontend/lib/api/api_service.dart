@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/config.dart';
 import 'package:frontend/models/category.dart';
+import 'package:frontend/models/login_response_model.dart';
 import 'package:frontend/models/product.dart';
 import 'package:frontend/models/product_filter.dart';
+import 'package:frontend/models/slider.dart';
+import 'package:frontend/utils/shared_service.dart';
 import 'package:http/http.dart' as http;
 
 final apiService = Provider((ref) => APIService());
@@ -125,6 +128,51 @@ class APIService {
     } catch (e) {
       debugPrint("❌ Register Error: $e");
       return false;
+    }
+  }
+
+  static Future<bool> loginUser(String email, String password) async {
+    Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
+    var url = Uri.http(Config.apiUrl, Config.loginAPI);
+    var response = await client.post(
+      url,
+      headers: requestHeaders,
+      body: jsonEncode({"email": email, "password": password}),
+    );
+    if (response.statusCode == 200) {
+      await SharedService.setLoginDetails(loginResponseJson(response.body));
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<List<SliderModel>?> getSliders(page, pageSize) async {
+    Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
+    Map<String, String> queryString = {
+      'page': page.toString(),
+      'pageSize': pageSize.toString(),
+    };
+    var url = Uri.http(Config.apiUrl, Config.sliderAPI, queryString);
+    debugPrint("Final API URL: $url");
+    var response = await client.get(url, headers: requestHeaders);
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      final sliders = slidersFromJson(data["data"]);
+      debugPrint("Sliders parsed: ${sliders.length}");
+      for (var slider in sliders) {
+        debugPrint("Slider name: ${slider.sliderName}");
+        debugPrint("Slider image: ${slider.fullImagePath}");
+      }
+      return sliders;
+      // try {
+      // } catch (e) {
+      //   debugPrint("Error decoding JSON of sliders: $e");
+      //   return null;
+      // }
+    } else {
+      debugPrint("Failed to fetch sliders");
+      return null;
     }
   }
 }

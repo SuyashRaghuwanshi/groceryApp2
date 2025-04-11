@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/api/api_service.dart';
 import 'package:frontend/config.dart';
@@ -242,8 +243,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           Navigator.of(context).pop();
                           Navigator.of(
                             context,
-                            // ).pushNamedAndRemoveUntil("/login", (route) => false);
-                          );
+                          ).pushNamedAndRemoveUntil("/login", (route) => false);
                         },
                       );
                     } else {
@@ -279,13 +279,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       color: Colors.deepOrange,
                       fontWeight: FontWeight.bold,
                     ),
-                    // recognizer:
-                    //     TapGestureRecognizer()
-                    //       ..onTap = () {
-                    //         Navigator.of(
-                    //           context,
-                    //         ).pushNamedAndRemoveUntil("/login", (route) => false);
-                    //       },
+                    recognizer:
+                        TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.of(context).pushNamedAndRemoveUntil(
+                              "/login",
+                              (route) => false,
+                            );
+                          },
                   ),
                 ],
               ),

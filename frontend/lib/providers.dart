@@ -7,6 +7,7 @@ import 'package:frontend/models/category.dart';
 import 'package:frontend/models/pagination.dart';
 import 'package:frontend/models/product.dart';
 import 'package:frontend/models/product_filter.dart';
+import 'package:frontend/models/slider.dart';
 
 final categoryProvider =
     FutureProvider.family<List<Category>?, PaginationModel>((
@@ -40,3 +41,11 @@ final productsNotifierProvider =
         ref.watch(productsFilterProvider),
       ),
     );
+
+final sliderProvider = FutureProvider.family<
+  List<SliderModel>?,
+  PaginationModel
+>((ref, paginationModel) {
+  final sliderRepo = ref.watch(apiService);
+  return sliderRepo.getSliders(paginationModel.page, paginationModel.pageSize);
+});
