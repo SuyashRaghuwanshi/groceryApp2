@@ -34,14 +34,24 @@ exports.findAll = (req, res, next) => {
     };
 
     sliderService.getSliders(model, (error, result) => {
+        
+        console.log("result", result);
+
         if (error) {
+
             return next(error);
         }
-        return res.status(200).send({
-            message: "Success",
-            data: result,
+        const list = [];
+            result.forEach((e)=> list.push({
+                sliderId: e['_id'],
+                sliderName: e['sliderName'],
+                sliderImage: e['sliderImage'],
+            }))
+            return res.status(200).send({
+                message: "Success",
+                data: list,
+            });
         });
-    });
 };
 
 // ✅ Find One Slider by ID
@@ -49,7 +59,6 @@ exports.findOne = (req, res, next) => {
     var model = {
         sliderId: req.params.id, // Fixed from req.query.sliderName
     };
-
     sliderService.getSliderById(model, (error, result) => {
         if (error) {
             return next(error);

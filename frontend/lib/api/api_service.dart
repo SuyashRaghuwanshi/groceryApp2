@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -157,19 +158,16 @@ class APIService {
     debugPrint("Final API URL: $url");
     var response = await client.get(url, headers: requestHeaders);
     if (response.statusCode == 200) {
-      var data = jsonDecode(response.body);
-      final sliders = slidersFromJson(data["data"]);
-      debugPrint("Sliders parsed: ${sliders.length}");
-      for (var slider in sliders) {
-        debugPrint("Slider name: ${slider.sliderName}");
-        debugPrint("Slider image: ${slider.fullImagePath}");
+      try {
+        var data = jsonDecode(response.body);
+        log("${data["data"]}");
+        final sliders = slidersFromJson(data["data"]);
+        log("$sliders");
+        return sliders;
+      } catch (e) {
+        debugPrint("Error decoding JSON of sliders: $e");
+        return null;
       }
-      return sliders;
-      // try {
-      // } catch (e) {
-      //   debugPrint("Error decoding JSON of sliders: $e");
-      //   return null;
-      // }
     } else {
       debugPrint("Failed to fetch sliders");
       return null;

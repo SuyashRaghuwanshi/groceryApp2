@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/api/api_service.dart';
 import 'package:frontend/application/state/notifier/product_filter_notifier.dart';
@@ -42,10 +44,16 @@ final productsNotifierProvider =
       ),
     );
 
-final sliderProvider = FutureProvider.family<
-  List<SliderModel>?,
-  PaginationModel
->((ref, paginationModel) {
-  final sliderRepo = ref.watch(apiService);
-  return sliderRepo.getSliders(paginationModel.page, paginationModel.pageSize);
-});
+final sliderProvider =
+    FutureProvider.family<List<SliderModel>?, PaginationModel>((
+      ref,
+      paginationModel,
+    ) async {
+      final sliderRepo = ref.watch(apiService);
+      final repo = await sliderRepo.getSliders(
+        paginationModel.page,
+        paginationModel.pageSize,
+      );
+      log("$repo");
+      return repo;
+    });

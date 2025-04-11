@@ -19,7 +19,7 @@ class HomeSliderWidget extends ConsumerWidget {
     );
     return sliders.when(
       data: (list) {
-        return imageCarousel(list!);
+        return imageCarousel(list ?? []);
       },
       error: (_, __) => const Center(child: Text('error')),
       loading: () => const Center(child: CircularProgressIndicator()),
