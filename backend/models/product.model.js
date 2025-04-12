@@ -47,7 +47,7 @@ const product=mongoose.model(
             },
             relatedProducts: [{
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "Product"
+                ref: "RelatedProduct",
             }]
             
         },{

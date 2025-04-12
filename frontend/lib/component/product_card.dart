@@ -35,11 +35,18 @@ class ProductCard extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 100,
-                width: MediaQuery.of(context).size.width,
-                child: Image.network(model!.fullImagePath, fit: BoxFit.cover),
-                // width: double.infinity, // or a fixed width like 100–140
+              GestureDetector(
+                child: SizedBox(
+                  height: 100,
+                  width: MediaQuery.of(context).size.width,
+                  child: Image.network(model!.fullImagePath, fit: BoxFit.cover),
+                ),
+                onTap: () {
+                  Navigator.of(context).pushNamed(
+                    "/product-details",
+                    arguments: {'productId': model!.productId},
+                  );
+                },
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8, left: 10),

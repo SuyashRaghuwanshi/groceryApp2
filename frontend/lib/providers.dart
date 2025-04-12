@@ -57,3 +57,20 @@ final sliderProvider =
       log("$repo");
       return repo;
     });
+
+final ProductDetailsProvider = FutureProvider.family<Product?, String>((
+  ref,
+  productId,
+) {
+  final apiRepository = ref.watch(apiService);
+  return apiRepository.getProductDetails(productId);
+});
+
+final relatedProductsProvider =
+    FutureProvider.family<List<Product>?, ProductFilterModel>((
+      ref,
+      productsFilterModel,
+    ) {
+      final apiRepository = ref.watch(apiService);
+      return apiRepository.getProducts(productsFilterModel);
+    });
