@@ -12,11 +12,14 @@ const user=mongoose.model(
             type: String,
             required: true,
             unique: true,
-          },
-          password: {
+            },
+            password: {
             type: String,
             required: true,
-          },
+            },
+            stripeCustomerId: {
+            type: String,
+            },
     },{
         toJSON: {
             transform: function (doc, ret) {

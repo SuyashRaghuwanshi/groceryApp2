@@ -153,13 +153,13 @@ class _ProductDetailsPageState extends ConsumerState<ProductDetailsPage> {
                 iconSize: 22.0,
                 value: qty,
                 onChanged: (value) {
-                  // qty = value["qty"];
+                  qty = value["qty"];
                 },
               ),
               TextButton.icon(
                 onPressed: () {
-                  // final cartViewModel = ref.read(cartItemProvider.notifier);
-                  // cartViewModel.addCartItem(model.productId, qty);
+                  final cartViewModel = ref.read(cartItemProvider.notifier);
+                  cartViewModel.addCartItem(model.productId, qty);
                 },
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all(Colors.green),

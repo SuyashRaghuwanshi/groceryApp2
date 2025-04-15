@@ -14,7 +14,7 @@ class ProductCard extends StatelessWidget {
       child: Stack(
         children: [
           Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Visibility(

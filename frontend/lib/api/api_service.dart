@@ -4,6 +4,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/config.dart';
+import 'package:frontend/main.dart';
+import 'package:frontend/models/cart.dart';
 import 'package:frontend/models/category.dart';
 import 'package:frontend/models/login_response_model.dart';
 import 'package:frontend/models/product.dart';
@@ -191,6 +193,93 @@ class APIService {
       }
     } else {
       debugPrint("Failed to fetch product details");
+      return null;
+    }
+  }
+
+  Future<bool?> addCartItem(productId, qty) async {
+    var loginDetails = await SharedService.loginDetails();
+
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ${loginDetails!.data.token.toString()}',
+    };
+    var url = Uri.http(Config.apiUrl, Config.cartAPI);
+
+    var response = await client.post(
+      url,
+      headers: requestHeaders,
+      body: jsonEncode({
+        "products": [
+          {"product": productId, "qty": qty},
+        ],
+      }),
+    );
+    if (response.statusCode == 200) {
+      return true;
+    } else if (response.statusCode == 401) {
+      navigatorKey.currentState?.pushNamedAndRemoveUntil(
+        "/login",
+        (route) => false,
+      );
+    } else {
+      return null;
+    }
+  }
+
+  Future<bool?> removeCartItem(productId, qty) async {
+    var loginDetails = await SharedService.loginDetails();
+
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ${loginDetails!.data.token.toString()}',
+    };
+    var url = Uri.http(Config.apiUrl, Config.cartAPI);
+
+    var response = await client.delete(
+      url,
+      headers: requestHeaders,
+      body: jsonEncode({"productId": productId, "qty": qty}),
+    );
+    if (response.statusCode == 200) {
+      return true;
+    } else if (response.statusCode == 401) {
+      navigatorKey.currentState?.pushNamedAndRemoveUntil(
+        "/login",
+        (route) => false,
+      );
+    } else {
+      return null;
+    }
+  }
+
+  Future<Cart?> getCart() async {
+    var loginDetails = await SharedService.loginDetails();
+
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Basic ${loginDetails!.data.token.toString()}',
+    };
+    var url = Uri.http(Config.apiUrl, Config.cartAPI);
+
+    var response = await client.get(url, headers: requestHeaders);
+
+    if (response.statusCode == 200) {
+      try {
+        log("Response Body: ${response.body}");
+        var data = jsonDecode(response.body);
+        log(data.toString());
+        return Cart.fromJson(data["data"]);
+      } catch (e) {
+        debugPrint("Error decoding JSON: $e");
+        throw Exception("Failed to parse cart details");
+      }
+    } else if (response.statusCode == 401) {
+      navigatorKey.currentState?.pushNamedAndRemoveUntil(
+        "/login",
+        (route) => false,
+      );
+    } else {
       return null;
     }
   }
