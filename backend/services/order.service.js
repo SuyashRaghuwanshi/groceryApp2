@@ -1,9 +1,9 @@
-const {user} = require('../models/user.model');
-const {cards}= require('../models/cards.model');
-const {order}= require('../models/order.model');
+const { user } = require('../models/user.model');
+const { cards } = require('../models/cards.model');
+const { order } = require('../models/order.model');
 
-const stripeService=require('../services/stripe.service');
-const cartService=require('../services/cart.services');
+const stripeService = require('../services/stripe.service');
+const cartService = require('../services/cart.services');
 const { cart } = require('../models/cart.model');
 const { model } = require('mongoose');
 
@@ -12,6 +12,7 @@ async function createOrder(params) {
         const userDB = await user.findById(params.userId);
         console.log("📌 createOrder: params.userId =", params.userId);
         console.log("📌 createOrder: userDB =", userDB);
+
 
         if (!userDB) throw new Error('User not found');
 
@@ -34,27 +35,29 @@ async function createOrder(params) {
         // ✅ 2. Find existing card
         const cardDB = await cards.findOne({
             customerId: model.stripeCustomerID,
-            cardNumber: params.cardNumber,
-            cardExpMonth: params.cardExpMonth,
-            cardExpYear: params.cardExpYear,
+            cardNumber: params.card_Number,
+            cardExpMonth: params.card_ExpMonth,
+            cardExpYear: params.card_ExpYear,
         });
+
 
         if (!cardDB) {
             const newCard = await stripeService.addCard({
                 card_Name: params.card_Name,
                 card_Number: params.card_Number,
-                card_ExpMonth: params.cardExpMonth,
-                card_ExpYear: params.cardExpYear,
+                card_ExpMonth: params.card_ExpMonth,
+                card_ExpYear: params.card_ExpYear,
                 card_CVC: params.card_CVC,
                 customer_Id: model.stripeCustomerID,
             });
+
 
             const cardModel = new cards({
                 cardId: newCard.card,
                 cardName: params.card_Name,
                 cardNumber: params.card_Number,
-                cardExpMonth: params.cardExpMonth,
-                cardExpYear: params.cardExpYear,
+                cardExpMonth: params.card_ExpMonth,
+                cardExpYear: params.card_ExpYear,
                 cardCVC: params.card_CVC,
                 customerId: model.stripeCustomerID,
             });
@@ -77,7 +80,7 @@ async function createOrder(params) {
         model.client_secret = paymentIntent.client_secret;
 
         // ✅ 4. Get cart
-        const cartDB = await cartService.getCart({ userId: userDB._id });
+        const cartDB = await cartService.getCart({ userId: userDB._id.toString() });
         if (!cartDB || cartDB.products.length === 0) {
             throw new Error("Cart is empty or not found");
         }
@@ -169,7 +172,7 @@ async function createOrder(params) {
 //                                 });
 //                                 cardModel.save();
 //                                 model.cardId=results.card;
-                                
+
 //                             }
 //                         });
 //                     }else{
@@ -228,48 +231,48 @@ async function createOrder(params) {
 //     });
 // }
 
-async function updateOrder(params,callback){
-    var model={
-        orderStatus:params.status,
-        transactionId:params.transaction_id
+async function updateOrder(params, callback) {
+    var model = {
+        orderStatus: params.status,
+        transactionId: params.transaction_id
     };
-    order.findByIdAndUpdate(params.orderId, model, {new:true},)
-    .then((response)=>{
-        if(!response){
-            return callback('Order Update failed');
-        }else{
-            if(params.status=="success"){
+    order.findByIdAndUpdate(params.orderId, model, { new: true },)
+        .then((response) => {
+            if (!response) {
+                return callback('Order Update failed');
+            } else {
+                if (params.status == "success") {
 
+                }
+                return callback(null, response);
             }
-            return callback(null, response);
-        }
-    }).catch((error)=>{
-        return callback(error);
-    });
+        }).catch((error) => {
+            return callback(error);
+        });
 }
 
-async function getOrder(params,callback){
+async function getOrder(params, callback) {
     order.findOne({
-        userId:params.userId,
+        userId: params.userId,
     }).populate({
-        path:"products",
-        populate:{
-            path:'product',
-            model:'Product',
-            populate:{
-                path:'category',
-                model:'Category',
-                select:'CategoryName'
+        path: "products",
+        populate: {
+            path: 'product',
+            model: 'Product',
+            populate: {
+                path: 'category',
+                model: 'Category',
+                select: 'CategoryName'
             }
         }
-    }).then((response)=>{
-        return callback(null,response);
-    }).catch((error)=>{
+    }).then((response) => {
+        return callback(null, response);
+    }).catch((error) => {
         return callback(error);
     });
 }
 
-module.exports={
+module.exports = {
     createOrder,
     updateOrder,
     getOrder

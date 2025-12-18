@@ -28,9 +28,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Grocery App',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: ThemeData(primarySwatch: Colors.deepPurple),
       // home: const RegisterPage(),
       navigatorKey: navigatorKey,
       routes: <String, WidgetBuilder>{

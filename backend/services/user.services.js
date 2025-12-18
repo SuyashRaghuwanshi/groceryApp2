@@ -1,4 +1,4 @@
-const {user} = require('../models/user.model'); // Fixed import
+const { user } = require('../models/user.model'); // Fixed import
 const bcrypt = require('bcrypt');
 const auth = require('../middleware/auth');
 const { response } = require('express');
@@ -7,11 +7,17 @@ async function login({ email, password }, callback) {
     try {
         const userModel = await user.findOne({ email });
         console.log("User found:", userModel);
-        if (userModel!=null) {
-            if(bcrypt.compareSync(password, userModel.password)){
+        if (userModel != null) {
+            console.log("Before token gen:", userModel);
+            console.log("After toJSON:", userModel.toJSON());
+            console.log("Has _id?", userModel._id);
+            console.log("JSON _id:", userModel.toJSON()._id);
+
+
+            if (bcrypt.compareSync(password, userModel.password)) {
                 const token = auth.generateAccessToken(userModel.toJSON());
                 return callback(null, { ...userModel.toJSON(), token });
-            }else{
+            } else {
                 return callback({ message: 'Invalid Email/Password' });
             }
         } else {
@@ -25,7 +31,7 @@ async function login({ email, password }, callback) {
 async function register(params, callback) {
     try {
         console.log("🔍 Register Params:", params);
-        if (params.email===undefined) {
+        if (params.email === undefined) {
             console.log("❌ Missing Fields!");
             return callback({ message: "Email Required!" });
         }
@@ -36,8 +42,7 @@ async function register(params, callback) {
         }
         const salt = bcrypt.genSaltSync(10);
         params.password = bcrypt.hashSync(params.password, salt);
-
-        const userSchema=new user(params);
+        const userSchema = new user(params);
         userSchema.save()
             .then((response) => {
                 console.log("✅ User Registered:", response);
@@ -52,4 +57,7 @@ async function register(params, callback) {
         return callback(error);
     }
 }
+
+
+
 module.exports = { login, register };

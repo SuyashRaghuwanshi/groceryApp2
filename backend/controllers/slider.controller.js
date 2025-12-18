@@ -42,10 +42,11 @@ exports.findAll = (req, res, next) => {
             return next(error);
         }
         const list = [];
+        
             result.forEach((e)=> list.push({
                 sliderId: e['_id'],
                 sliderName: e['sliderName'],
-                sliderImage: e['sliderImage'],
+                sliderImage: e['sliderImage']
             }))
             return res.status(200).send({
                 message: "Success",

@@ -46,49 +46,49 @@ var async= require("async");
 //     }
 // }/
 
-async function addCart(params, callback) {
-    try {
-        if (!params.userId) {
-            return callback({ message: "UserId Required" });
-        }
-
-        let cartDB = await cart.findOne({ userId: params.userId });
-
-        if (!cartDB) {
-            const cartModel = new cart({
-                userId: params.userId,
-                products: params.products
-            });
-
-            const savedCart = await cartModel.save();
-            return callback(null, savedCart);
-        }
-
-        if (!Array.isArray(cartDB.products)) {
-            cartDB.products = [];
-        }
-
-        for (const product of params.products) {
-            const index = cartDB.products.findIndex(
-                (p) => p.product.toString() === product.product
-            );
-
-            if (index === -1) {
-                cartDB.products.push({
-                    product: product.product,
-                    qty: product.qty
-                });
-            } else {
-                cartDB.products[index].qty += product.qty;
+    async function addCart(params, callback) {
+        try {
+            if (!params.userId) {
+                return callback({ message: "UserId Required" });
             }
-        }
 
-        const updatedCart = await cartDB.save();
-        return callback(null, updatedCart);
-    } catch (error) {
-        return callback(error);
+            let cartDB = await cart.findOne({ userId: params.userId });
+
+            if (!cartDB) {
+                const cartModel = new cart({
+                    userId: params.userId,
+                    products: params.products
+                });
+
+                const savedCart = await cartModel.save();
+                return callback(null, savedCart);
+            }
+
+            if (!Array.isArray(cartDB.products)) {
+                cartDB.products = [];
+            }
+
+            for (const product of params.products) {
+                const index = cartDB.products.findIndex(
+                    (p) => p.product.toString() === product.product
+                );
+
+                if (index === -1) {
+                    cartDB.products.push({
+                        product: product.product,
+                        qty: product.qty
+                    });
+                } else {
+                    cartDB.products[index].qty += product.qty;
+                }
+            }
+
+            const updatedCart = await cartDB.save();
+            return callback(null, updatedCart);
+        } catch (error) {
+            return callback(error);
+        }
     }
-}
 
 
 async function getCart(params, callback){

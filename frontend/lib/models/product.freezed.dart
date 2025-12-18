@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Product {
 
- String get productName; Category get category; String? get productShortDescription; double? get productPrice; double get productSalePrice; String get productImage; String? get productSKU; String? get productType; String? get stockStatus; String get productId; List<String>? get relatedProducts;
+ String get productName; Category? get category; String? get productShortDescription; double? get productPrice; double get productSalePrice; String get productImage; String? get productSKU; String? get productType; String? get stockStatus; String get productId; List<String>? get relatedProducts;
 /// Create a copy of Product
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,11 +49,11 @@ abstract mixin class $ProductCopyWith<$Res>  {
   factory $ProductCopyWith(Product value, $Res Function(Product) _then) = _$ProductCopyWithImpl;
 @useResult
 $Res call({
- String productName, Category category, String? productShortDescription, double? productPrice, double productSalePrice, String productImage, String? productSKU, String? productType, String? stockStatus, String productId, List<String>? relatedProducts
+ String productName, Category? category, String? productShortDescription, double? productPrice, double productSalePrice, String productImage, String? productSKU, String? productType, String? stockStatus, String productId, List<String>? relatedProducts
 });
 
 
-$CategoryCopyWith<$Res> get category;
+$CategoryCopyWith<$Res>? get category;
 
 }
 /// @nodoc
@@ -66,11 +66,11 @@ class _$ProductCopyWithImpl<$Res>
 
 /// Create a copy of Product
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? productName = null,Object? category = null,Object? productShortDescription = freezed,Object? productPrice = freezed,Object? productSalePrice = null,Object? productImage = null,Object? productSKU = freezed,Object? productType = freezed,Object? stockStatus = freezed,Object? productId = null,Object? relatedProducts = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? productName = null,Object? category = freezed,Object? productShortDescription = freezed,Object? productPrice = freezed,Object? productSalePrice = null,Object? productImage = null,Object? productSKU = freezed,Object? productType = freezed,Object? stockStatus = freezed,Object? productId = null,Object? relatedProducts = freezed,}) {
   return _then(_self.copyWith(
 productName: null == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
-as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
-as Category,productShortDescription: freezed == productShortDescription ? _self.productShortDescription : productShortDescription // ignore: cast_nullable_to_non_nullable
+as String,category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as Category?,productShortDescription: freezed == productShortDescription ? _self.productShortDescription : productShortDescription // ignore: cast_nullable_to_non_nullable
 as String?,productPrice: freezed == productPrice ? _self.productPrice : productPrice // ignore: cast_nullable_to_non_nullable
 as double?,productSalePrice: null == productSalePrice ? _self.productSalePrice : productSalePrice // ignore: cast_nullable_to_non_nullable
 as double,productImage: null == productImage ? _self.productImage : productImage // ignore: cast_nullable_to_non_nullable
@@ -86,9 +86,12 @@ as List<String>?,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$CategoryCopyWith<$Res> get category {
-  
-  return $CategoryCopyWith<$Res>(_self.category, (value) {
+$CategoryCopyWith<$Res>? get category {
+    if (_self.category == null) {
+    return null;
+  }
+
+  return $CategoryCopyWith<$Res>(_self.category!, (value) {
     return _then(_self.copyWith(category: value));
   });
 }
@@ -99,11 +102,11 @@ $CategoryCopyWith<$Res> get category {
 @JsonSerializable()
 
 class _Product implements Product {
-   _Product({required this.productName, required this.category, required this.productShortDescription, required this.productPrice, required this.productSalePrice, required this.productImage, required this.productSKU, required this.productType, required this.stockStatus, required this.productId, final  List<String>? relatedProducts}): _relatedProducts = relatedProducts;
+   _Product({required this.productName, this.category, required this.productShortDescription, required this.productPrice, required this.productSalePrice, required this.productImage, required this.productSKU, required this.productType, required this.stockStatus, required this.productId, final  List<String>? relatedProducts}): _relatedProducts = relatedProducts;
   factory _Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
 
 @override final  String productName;
-@override final  Category category;
+@override final  Category? category;
 @override final  String? productShortDescription;
 @override final  double? productPrice;
 @override final  double productSalePrice;
@@ -155,11 +158,11 @@ abstract mixin class _$ProductCopyWith<$Res> implements $ProductCopyWith<$Res> {
   factory _$ProductCopyWith(_Product value, $Res Function(_Product) _then) = __$ProductCopyWithImpl;
 @override @useResult
 $Res call({
- String productName, Category category, String? productShortDescription, double? productPrice, double productSalePrice, String productImage, String? productSKU, String? productType, String? stockStatus, String productId, List<String>? relatedProducts
+ String productName, Category? category, String? productShortDescription, double? productPrice, double productSalePrice, String productImage, String? productSKU, String? productType, String? stockStatus, String productId, List<String>? relatedProducts
 });
 
 
-@override $CategoryCopyWith<$Res> get category;
+@override $CategoryCopyWith<$Res>? get category;
 
 }
 /// @nodoc
@@ -172,11 +175,11 @@ class __$ProductCopyWithImpl<$Res>
 
 /// Create a copy of Product
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? productName = null,Object? category = null,Object? productShortDescription = freezed,Object? productPrice = freezed,Object? productSalePrice = null,Object? productImage = null,Object? productSKU = freezed,Object? productType = freezed,Object? stockStatus = freezed,Object? productId = null,Object? relatedProducts = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? productName = null,Object? category = freezed,Object? productShortDescription = freezed,Object? productPrice = freezed,Object? productSalePrice = null,Object? productImage = null,Object? productSKU = freezed,Object? productType = freezed,Object? stockStatus = freezed,Object? productId = null,Object? relatedProducts = freezed,}) {
   return _then(_Product(
 productName: null == productName ? _self.productName : productName // ignore: cast_nullable_to_non_nullable
-as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
-as Category,productShortDescription: freezed == productShortDescription ? _self.productShortDescription : productShortDescription // ignore: cast_nullable_to_non_nullable
+as String,category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as Category?,productShortDescription: freezed == productShortDescription ? _self.productShortDescription : productShortDescription // ignore: cast_nullable_to_non_nullable
 as String?,productPrice: freezed == productPrice ? _self.productPrice : productPrice // ignore: cast_nullable_to_non_nullable
 as double?,productSalePrice: null == productSalePrice ? _self.productSalePrice : productSalePrice // ignore: cast_nullable_to_non_nullable
 as double,productImage: null == productImage ? _self.productImage : productImage // ignore: cast_nullable_to_non_nullable
@@ -193,9 +196,12 @@ as List<String>?,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$CategoryCopyWith<$Res> get category {
-  
-  return $CategoryCopyWith<$Res>(_self.category, (value) {
+$CategoryCopyWith<$Res>? get category {
+    if (_self.category == null) {
+    return null;
+  }
+
+  return $CategoryCopyWith<$Res>(_self.category!, (value) {
     return _then(_self.copyWith(category: value));
   });
 }

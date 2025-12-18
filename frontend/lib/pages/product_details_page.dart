@@ -103,14 +103,7 @@ class _ProductDetailsPageState extends ConsumerState<ProductDetailsPage> {
                         ? " ${Config.currency}${model.productSalePrice.toString()}"
                         : "",
                     textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                      decoration:
-                          model.productSalePrice > 0
-                              ? TextDecoration.lineThrough
-                              : null,
-                    ),
+                    style: TextStyle(fontSize: 20, color: Colors.black),
                   ),
                 ],
               ),
@@ -160,6 +153,7 @@ class _ProductDetailsPageState extends ConsumerState<ProductDetailsPage> {
                 onPressed: () {
                   final cartViewModel = ref.read(cartItemProvider.notifier);
                   cartViewModel.addCartItem(model.productId, qty);
+                  log("Add to cart: ${model.productId} , qty: $qty");
                 },
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all(Colors.green),

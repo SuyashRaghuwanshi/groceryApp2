@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,10 +32,12 @@ class HomeSliderWidget extends ConsumerWidget {
     return CarouselSlider(
       items:
           sliderList.map((model) {
+            log('Slider Image: ${model.fullImagePath}');
             return Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(model.fullImagePath),
+
                   fit: BoxFit.contain,
                 ),
               ),

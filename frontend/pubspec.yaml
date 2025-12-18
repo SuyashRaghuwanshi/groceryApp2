@@ -41,6 +41,7 @@ dependencies:
   snippet_coder_utils: ^1.0.15
   api_cache_manager: ^1.0.2
   carousel_slider: ^5.0.0
+  sqflite_common_ffi: ^2.3.6
 
 dev_dependencies:
   flutter_test:

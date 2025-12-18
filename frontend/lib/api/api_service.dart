@@ -27,7 +27,9 @@ class APIService {
     };
     debugPrint("API URL from Config: ${Config.apiUrl}");
     debugPrint("Category API Path: ${Config.categoryAPI}");
-    var url = Uri.http(Config.apiUrl, Config.categoryAPI, queryString);
+    var url = Uri.parse(
+      "${Config.apiUrl}${Config.categoryAPI}?page=$page&pageSize=$pageSize",
+    );
 
     debugPrint("Final API URL: $url");
     var response = await client.get(url, headers: requestHeaders);
@@ -84,7 +86,9 @@ class APIService {
     if (productFilterModel.productIds != null) {
       queryString['productIds'] = productFilterModel.productIds!.join(',');
     }
-    var url = Uri.http(Config.apiUrl, Config.productAPI, queryString);
+    final url = Uri.parse(
+      "${Config.apiUrl}${Config.productAPI}",
+    ).replace(queryParameters: queryString);
 
     debugPrint("Final API URL: $url");
     var response = await client.get(url, headers: requestHeaders);
@@ -110,7 +114,8 @@ class APIService {
   ) async {
     Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
 
-    var url = Uri.http(Config.apiUrl, Config.registerAPI);
+    final url = Uri.parse("${Config.apiUrl}${Config.registerAPI}");
+
     debugPrint("Final API URL: $url");
     try {
       var response = await client.post(
@@ -139,7 +144,8 @@ class APIService {
 
   static Future<bool> loginUser(String email, String password) async {
     Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
-    var url = Uri.http(Config.apiUrl, Config.loginAPI);
+    final url = Uri.parse("${Config.apiUrl}${Config.loginAPI}");
+
     var response = await client.post(
       url,
       headers: requestHeaders,
@@ -159,8 +165,12 @@ class APIService {
       'page': page.toString(),
       'pageSize': pageSize.toString(),
     };
-    var url = Uri.http(Config.apiUrl, Config.sliderAPI, queryString);
+    final url = Uri.parse(
+      "${Config.apiUrl}${Config.sliderAPI}",
+    ).replace(queryParameters: queryString);
+
     debugPrint("Final API URL: $url");
+    log("Fetching sliders from $url");
     var response = await client.get(url, headers: requestHeaders);
     if (response.statusCode == 200) {
       try {
@@ -181,7 +191,8 @@ class APIService {
 
   Future<Product?> getProductDetails(String productId) async {
     Map<String, String> requestHeaders = {'Content-Type': 'application/json'};
-    var url = Uri.http(Config.apiUrl, Config.productAPI + "/" + productId);
+    final url = Uri.parse("${Config.apiUrl}${Config.productAPI}/$productId");
+
     var response = await client.get(url, headers: requestHeaders);
     if (response.statusCode == 200) {
       try {
@@ -202,10 +213,11 @@ class APIService {
 
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ${loginDetails!.data.token.toString()}',
+      'Authorization': 'Bearer ${loginDetails!.data.token}',
     };
-    var url = Uri.http(Config.apiUrl, Config.cartAPI);
-
+    // var url = Uri.http(Config.apiUrl, Config.cartAPI);
+    var url = Uri.parse("${Config.apiUrl}${Config.cartAPI}");
+    log("Adding to cart URL: $url");
     var response = await client.post(
       url,
       headers: requestHeaders,
@@ -215,6 +227,9 @@ class APIService {
         ],
       }),
     );
+    log("STATUS: ${response.statusCode}");
+    log("BODY: ${response.body}");
+
     if (response.statusCode == 200) {
       return true;
     } else if (response.statusCode == 401) {
@@ -232,9 +247,9 @@ class APIService {
 
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ${loginDetails!.data.token.toString()}',
+      'Authorization': 'Bearer ${loginDetails!.data.token}',
     };
-    var url = Uri.http(Config.apiUrl, Config.cartAPI);
+    final url = Uri.parse("${Config.apiUrl}${Config.cartAPI}");
 
     var response = await client.delete(
       url,
@@ -258,9 +273,9 @@ class APIService {
 
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ${loginDetails!.data.token.toString()}',
+      'Authorization': 'Bearer ${loginDetails!.data.token}',
     };
-    var url = Uri.http(Config.apiUrl, Config.cartAPI);
+    final url = Uri.parse("${Config.apiUrl}${Config.cartAPI}");
 
     var response = await client.get(url, headers: requestHeaders);
 

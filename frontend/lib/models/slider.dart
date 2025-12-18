@@ -21,4 +21,5 @@ abstract class SliderModel with _$SliderModel {
 
 extension SliderModelExt on SliderModel {
   String get fullImagePath => Config.imageURL + sliderImage;
+  // Config.imageURL
 }

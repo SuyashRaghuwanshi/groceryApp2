@@ -5,7 +5,9 @@ const sliderController= require("../controllers/slider.controller");
 const relatedProductController= require("../controllers/related-product.controller");
 const cartController= require("../controllers/cart.controller");
 const orderController= require("../controllers/order.controller");
+const { addToBlacklist } = require('../blacklist'); 
 const {authenticateToken}= require("../middleware/auth");
+const { logout } = require('../controllers/logout');
 const express=require("express");
 const router=express.Router();
 
@@ -40,4 +42,14 @@ router.delete("/cart", authenticateToken, cartController.delete);
 router.get("/order", authenticateToken, orderController.findAll);
 router.post("/order", authenticateToken, orderController.create);
 router.put("/order", authenticateToken, orderController.update);
+
+
+router.post('/logout', (req, res) => {
+    const token = req.headers['authorization']?.split(' ')[1];
+    if (token) {
+      addToBlacklist(token);
+      return res.status(200).send({ message: "Logged out successfully" });
+    }
+    return res.status(400).send({ message: "Token missing" });
+  });
 module.exports=router;

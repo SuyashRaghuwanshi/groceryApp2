@@ -16,6 +16,8 @@ async function createCustomer(params) {
 
 async function addCard(params) {
     try {
+        console.log("🧪 addCard() params:", params);
+        console.log("adding to card got clicked");
         const card_token = await stripe.tokens.create({
             card:{
             name: params.card_Name,

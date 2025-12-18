@@ -148,6 +148,7 @@ class _ProductList extends ConsumerWidget {
             flex: 1,
             child: GridView.count(
               crossAxisCount: 2,
+              childAspectRatio: 0.68,
               controller: _scrollController,
               children: List.generate(productsState.products.length, (index) {
                 return ProductCard(model: productsState.products[index]);

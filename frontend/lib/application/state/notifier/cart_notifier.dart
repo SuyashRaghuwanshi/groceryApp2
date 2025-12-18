@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/api/api_service.dart';
@@ -21,6 +23,7 @@ class CartNotifier extends StateNotifier<CartState> {
 
   Future<void> addCartItem(productId, qty) async {
     await _apiService.addCartItem(productId, qty);
+    log("Added to cart: $productId , qty: $qty");
 
     await getCartItem();
   }
